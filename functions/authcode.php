@@ -16,14 +16,7 @@ if (isset($_POST['register_btn'])) {
     $role_as = checkEmptyUserTable($con);
     
     // Check if email already registered
-    $check_email_query = "SELECT email FROM users WHERE email = ?";
-    $stmt = mysqli_prepare($con, $check_email_query);
-    mysqli_stmt_bind_param($stmt, "s", $email);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_store_result($stmt);
-
-    // Then check if number of rows greater then zero, if so the email already registered
-    if (mysqli_stmt_num_rows($stmt) > 0) {
+    if (isEmailRegistered($con, $email)) {
         redirect("../register.php", "Email already registered.");
     } else {
         if (isset($password) && !empty($password) && isset($cpassword) && !empty($cpassword)) {
@@ -33,14 +26,8 @@ if (isset($_POST['register_btn'])) {
                 // Hash the password before storing
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                // Insert user data using prepared statements
-                $insert_query = "INSERT INTO users (name, phone, email, password, role_as) VALUES (?, ?, ?, ?, ?)";
-                $stmt = mysqli_prepare($con, $insert_query);
-                mysqli_stmt_bind_param($stmt, "sssss", $name, $phone, $email, $hashed_password, $role_as);
-                $insert_query_run = mysqli_stmt_execute($stmt);
-
-                // Check if query is run successfull
-                if ($insert_query_run) {
+                // Insert user data using prepared statements and Check if query is run successfull
+                if (registerUser($con, $name, $phone, $email, $hashed_password, $role_as)) {
                     redirect("../login.php", "Registered Successfully.");
                 } else {
                     redirect("../register.php", "Something went wrong.");
@@ -65,11 +52,7 @@ if (isset($_POST['register_btn'])) {
     if (isset($password) && !empty($password)) {
 
         // Fetch user data
-        $login_query = "SELECT * FROM users WHERE email = ?";
-        $stmt = mysqli_prepare($con, $login_query);
-        mysqli_stmt_bind_param($stmt, "s", $email);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $result = getUserByEmail($con, $email);
 
         // Check if user exists 
         if ($userdata = mysqli_fetch_assoc($result)) {

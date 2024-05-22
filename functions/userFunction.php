@@ -180,4 +180,29 @@ function deleteCustomer($customer_id) {
         return false;
     }
 }
+
+function getUserByEmail($con, $email) {
+    $query = "SELECT * FROM users WHERE email = ?";
+    $stmt = mysqli_prepare($con, $query);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    return mysqli_stmt_get_result($stmt);
+}
+
+function registerUser($con, $name, $phone, $email, $hashed_password, $role_as) {
+    $query = "INSERT INTO users (name, phone, email, password, role_as) VALUES (?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($con, $query);
+    mysqli_stmt_bind_param($stmt, "sssss", $name, $phone, $email, $hashed_password, $role_as);
+    return mysqli_stmt_execute($stmt);
+}
+
+function isEmailRegistered($con, $email) {
+    $query = "SELECT email FROM users WHERE email = ?";
+    $stmt = mysqli_prepare($con, $query);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+    return mysqli_stmt_num_rows($stmt) > 0;
+}
+
 ?>

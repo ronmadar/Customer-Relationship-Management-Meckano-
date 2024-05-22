@@ -10,21 +10,44 @@ to manage customer information.
 delete, and view customer details and should register and login to the CRM in order
 to use it.
 
+# Review Project Documentation: Check the README.md file in the root of the repository. This file contain instructions on how to set up and run the project.
+
+
+### How clone ?
+
+- Create a new folder : mkdir nameFolder
+- cd /nameFolder
+- git clone: https://github.com/ronmadar/Customer-Relationship-Management.git
+- cd /Customer-Relationship-Management
+
 ### How implement DB?
 
 You can use any tooles i use phpmyadmin ,Go to http://localhost/phpmyadmin.
-Open phpMyAdmin: Navigate to phpMyAdmin in your web browser.
-Upload the Script: Go to the "Import" tab of phpMyAdmin, choose the .sql file, and upload it.
+Upload the Script: Go to the "Import" tab of phpMyAdmin, choose the .sql file from the project, and upload it. name file: create_table.sql
 Execute the Script: Click on "Go" to execute the script.
 Check for Errors: phpMyAdmin will display any errors encountered during the execution. Ensure there are no errors.
 
+
 ### I implement input validation to prevent SQL injection and XSS attacks.
+
+Testing and Validation
+We have rigorously tested the system to ensure that our input validation and sanitization measures are effective. Below are examples of test cases that were conducted:
+
+SQL Injection Test:
+Input: "; SELECT * FROM users; --
+Expected Result: Input is treated as a plain string and does not alter the SQL query execution. The system either stores the sanitized input or rejects it as invalid.
+Actual Result: The input is successfully blocked, and the system redirects the user to an error page or displays a validation error message.
+
+XSS Attack Test:
+Input: <script>alert("123");</script>
+Expected Result: Input is sanitized to remove script tags, preventing execution of the script.
+Actual Result: The input is successfully sanitized, and the system redirects the user to an appropriate page or displays a validation error message.
 
 ### Use notification messages can be used to give feedback to users. https://alertifyjs.com/notifier/position.htm
 
 ### Use sweetalert cdn: https://sweetalert.js.org/guides/ 
 
-### A link to GitHub repository: 
+### A link to GitHub repository: https://github.com/ronmadar/Customer-Relationship-Management-Meckano-
 
 
 

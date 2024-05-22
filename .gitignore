@@ -1,0 +1,25 @@
+# OS-specific files
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE-specific files
+/.idea/
+/.vscode/
+
+# Log files
+*.log
+
+# Backup files
+*.bak
+*.backup
+
+# Cache and temporary files
+*.cache
+*.tmp
+*.swp
